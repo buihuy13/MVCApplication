@@ -1,0 +1,45 @@
+﻿@using Microsoft.EntityFrameworkCore;
+@inject AppDbContext dbContext
+
+@{
+    ViewData["Title"] = "Database Information";
+    var connect = dbContext.Database.GetDbConnection();
+    var dbName = connect.Database;
+    var canConnect = dbContext.Database.CanConnect();
+}
+<partial name="_StatusMessage" for="@TempData["StatusMessage"]"/>
+<h2>Database Information: </h2>
+<div>Database Name: @dbName</div>
+<div>Source: @connect.DataSource</div>
+<div>State: @connect.State</div>
+
+<hr />
+
+<h2>Migrations</h2>
+
+@foreach(var migration in dbContext.Database.GetAppliedMigrations())
+{
+    <p>@migration</p>
+}
+@foreach(var migration in dbContext.Database.GetPendingMigrations())
+{
+    <p>@migration (pending)</p> 
+    <form method="post">
+        <button class="btn btn-success" asp-action="Migrate" type="submit">Update Database</button>
+    </form>
+}
+
+<h2>Tables: </h2>
+@if(canConnect){
+    await dbContext.Database.OpenConnectionAsync();
+    var tables = connect.GetSchema("Tables");
+    @foreach (System.Data.DataRow table in tables.Rows)
+    {
+        <li>@(table["TABLE_NAME"])</li>
+    }
+}
+
+<a class="btn btn-danger" asp-action="DeleteDb">Delete Database</a>
+<form method="post">
+    <button class="btn btn-info" asp-action="SeedData">Seed Data</button>
+</form>

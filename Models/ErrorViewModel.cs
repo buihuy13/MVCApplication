@@ -1,4 +1,4 @@
-namespace MVCApplication.Models
+namespace MVCTest.Models
 {
     public class ErrorViewModel
     {
