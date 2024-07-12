@@ -11,13 +11,10 @@
     int countPages   = Model.countpages;
     var generateUrl  = Model.generateUrl;
 
-
-    
     if (currentPage > countPages) 
-      currentPage = countPages;
+        currentPage = countPages;
 
     if (countPages <= 1) return;
-    
 
     int? preview = null;
     int? next = null;
@@ -31,7 +28,6 @@
     // Các trang hiện thị trong điều hướng
     List<int> pagesRanges = new List<int>();    
 
-        
     int delta      = 5;             // Số trang mở rộng về mỗi bên trang hiện tại     
     int remain     = delta * 2;     // Số trang hai bên trang hiện tại
 
@@ -107,8 +103,6 @@
             </li>
         }
     }
-
-
     <!-- Next page link -->
     @if (next != null)
     {

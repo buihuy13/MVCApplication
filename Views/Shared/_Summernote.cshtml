@@ -1,0 +1,18 @@
+﻿@using MVCApplication.Models
+@model SummernoteModel
+
+@if (Model.loadLibrary == true)
+{
+    <script src="~/lib/summernote/summernote-bs4.min.js"></script>
+    <link rel="stylesheet" href="~/lib/summernote/summernote-bs4.min.css" />
+}
+
+<script>
+    //check document da duoc nap jquery thanh cong
+    $(document).ready(function () {
+        $('#summernoteEditor').summernote({
+            height: @Model.height,
+            toolbar: @Html.Raw(Model.toolbar)
+        });
+    });
+</script>
