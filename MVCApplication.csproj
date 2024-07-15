@@ -14,6 +14,7 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\_ViewImports.cshtml" />
     <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\511995729851564ed88c865f42e1844b.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <Folder Include="Areas\Database\Data\" />
     <Folder Include="Areas\Database\Models\" />
     <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="assets\" />
   </ItemGroup>
 
   <ItemGroup>

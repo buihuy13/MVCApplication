@@ -1,0 +1,53 @@
+﻿@model List<Post>
+@using App.Components
+@{
+    List<Category> categories = ViewBag.Categories as List<Category>;
+    var cate = ViewBag.Category as Category;
+    var parentCates = ViewBag.parentCates as List<Category>;
+}
+
+@if (cate != null)
+{
+    <h1>@cate.Content</h1>
+    <div class="bg-info bg-opacity-25">
+        <a asp-action="Index" asp-controller="Home" class="text-decoration-none">Home</a> /
+        @if (parentCates.Count > 0)
+        {
+            @foreach (var category in parentCates)
+            {
+                <span>@category.Title /</span>
+            }
+        }
+    </div>
+}
+else
+{
+    <h3>Index</h3>
+}
+
+<hr />
+
+@foreach(var post in Model)
+{
+    <div class="media border-bottom mb-3 pb-3">
+        <img src="./511995729851564ed88c865f42e1844b.jpg" class="mr-3 w-25">
+        <div class="media-body">
+            <h5 class="mt-0">
+                <a asp-controller="Posts" asp-action="Details" asp-area="Blog" asp-route-id="@post.Id">@post.Title</a>
+            </h5>
+            @post.Description
+            <div>
+                Author: @post.Author.UserName
+            </div>
+        </div>
+    </div>
+}
+
+@section Sidebar {
+    <a class="h3" asp-action="Index" asp-controller="Categories" asp-area="Blog" style="text-decoration: none">Category List</a>
+    @await Component.InvokeAsync("CategorySidebar", new CategorySidebar.CategorySidebarData() {
+           categories = categories,
+           level = 0,
+           categorySlug = ViewBag.categoryslug
+})
+}

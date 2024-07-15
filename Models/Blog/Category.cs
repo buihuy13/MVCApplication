@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MVCTest.Models
 {
@@ -31,5 +33,32 @@ namespace MVCTest.Models
         [ForeignKey("ParentCategoryId")]
         [DisplayName("Parent Category")]
         public Category? ParentCategory { get; set; }
+        public void CategoryChildrenIds(ICollection<Category> categoryChildren = null, List<int> lists = null)
+        {
+            if (categoryChildren == null)
+            {
+                categoryChildren = this.ChildrenCategories;
+            }
+
+            if (lists == null)
+            {
+                throw new Exception("Wrong");
+            }
+
+            foreach (var cate in categoryChildren)
+            {
+                lists.Add(cate.Id);
+                CategoryChildrenIds(cate.ChildrenCategories, lists);
+            }
+        }
+        public List<int> ParentCategoryIds(Category category,List<int> lists)
+        {
+            if (category != null)
+            {
+                lists.Add(category.Id);
+                return ParentCategoryIds(category.ParentCategory, lists);
+            }
+            return lists;
+        }
     }
 }

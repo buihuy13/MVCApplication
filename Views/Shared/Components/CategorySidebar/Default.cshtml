@@ -1,0 +1,25 @@
+﻿@using App.Components
+@model CategorySidebar.CategorySidebarData
+@{
+    int level = Model.level;
+}
+@if (Model.categories.Count > 0)
+{
+    <ul>
+        @foreach(var category in Model.categories)
+        {
+            <li>
+                <a asp-action="Index" asp-controller="ViewPost" asp-route-categoryslug="@category.Slug">@category.Title</a>
+            </li>
+            @if(category.ChildrenCategories.Count > 0)
+            {
+                @await Component.InvokeAsync("CategorySidebar", new CategorySidebar.CategorySidebarData()
+                {
+                    categories = category.ChildrenCategories.ToList(),
+                    level = level + 1,
+                    categorySlug = ViewBag.categoryslug
+                })
+            }
+        }
+    </ul>
+}

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sIuBrszgdg7waAOnIUOSQXxrUxmtkUWlm5A6L2+amYE=",
+  "Hash": "m8/56vTPPkKtUQZ67pPM4McBXDuRr+XYlRvH7FP6EZU=",
   "Source": "MVCApplication",
   "BasePath": "_content/MVCApplication",
   "Mode": "Default",
@@ -53,6 +53,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\source\\repos\\MVCApplication\\MVCApplication\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MVCApplication.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\source\\repos\\MVCApplication\\MVCApplication\\wwwroot\\511995729851564ed88c865f42e1844b.jpg",
+      "SourceId": "MVCApplication",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\source\\repos\\MVCApplication\\MVCApplication\\wwwroot\\",
+      "BasePath": "_content/MVCApplication",
+      "RelativePath": "511995729851564ed88c865f42e1844b.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\511995729851564ed88c865f42e1844b.jpg"
     },
     {
       "Identity": "D:\\source\\repos\\MVCApplication\\MVCApplication\\wwwroot\\css\\site.css",
