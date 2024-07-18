@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CategoryProduct>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <partial name="_StatusMessage" for="@TempData["StatusMessage"]" />
+    <h2>Blog List (Index)</h2>
+    <p>
+        <a class="btn btn-info" asp-action="Create">Create Blog</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Slug)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                await RenderCategory(item, 0);
+            }
+        </tbody>
+    </table>
+    @{
+        async Task RenderCategory(CategoryProduct item, int level)
+        {
+            string prefix = string.Concat(Enumerable.Repeat("*", level));
+            <tr>
+                <td>
+                    @prefix @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Slug)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+            if (item.ChildrenCategories != null)
+            {
+                foreach (var childrenItem in item.ChildrenCategories)
+                {
+                    await RenderCategory(childrenItem, level + 1);
+                }
+            }
+        }
+    }
+</body>
+</html>

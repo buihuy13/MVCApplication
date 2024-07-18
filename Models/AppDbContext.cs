@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MVCTest.Models.Product;
 using MySql.Data.MySqlClient;
 
 
@@ -10,7 +11,11 @@ namespace MVCTest.Models
         public DbSet<ContactModel> Contacts { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<PostCategory > PostCategories { get; set; }
+        public DbSet<PostCategory> PostCategories { get; set; }
+        public DbSet<ProductModel> Products { get; set; }
+        public DbSet<ProductCategoryProduct> ProductCategoryProducts { get; set; }
+        public DbSet<CategoryProduct> CategoryProducts { get; set; }
+        public DbSet<ProductPhoto> productPhotos {  get; set; } 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
         public string create()
@@ -53,6 +58,21 @@ namespace MVCTest.Models
             });
 
             modelBuilder.Entity<Post>(entity =>
+            {
+                entity.HasIndex(e => e.Slug).IsUnique();
+            });
+
+            modelBuilder.Entity<ProductModel>(entity =>
+            {
+                entity.HasIndex(p => p.Slug).IsUnique();
+            });
+
+            modelBuilder.Entity<ProductCategoryProduct>(entity =>
+            {
+                entity.HasKey(e => new { e.ProductId, e.CategoryProductId });
+            });
+
+            modelBuilder.Entity<CategoryProduct>(entity =>
             {
                 entity.HasIndex(e => e.Slug).IsUnique();
             });

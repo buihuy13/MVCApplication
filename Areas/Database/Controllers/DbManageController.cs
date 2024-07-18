@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCTest.Models;
+using MVCTest.Models.Product;
 
 namespace MVCTest.Areas.Database.Controllers
 {
@@ -89,6 +90,7 @@ namespace MVCTest.Areas.Database.Controllers
                 StatusMessage = "Seed Database Success";
             }
             SeedPostCategory();
+            SeedProductCategory();
 
             return RedirectToAction("Index");
         }
@@ -143,6 +145,62 @@ namespace MVCTest.Areas.Database.Controllers
             }
             _context.AddRange(posts);
             _context.AddRange(postCategories);
+            _context.AddRange(categories);
+
+            _context.SaveChanges();
+        }
+
+        private void SeedProductCategory()
+        {
+            var fakerCategory = new Faker<CategoryProduct>();
+            int cm = 1;
+            fakerCategory.RuleFor(c => c.Title, fk => $"CM{cm++}" + fk.Lorem.Sentence(1, 2).Trim('.'));
+            fakerCategory.RuleFor(c => c.Content, fk => fk.Lorem.Sentences(1) + "[fakeData]");
+            fakerCategory.RuleFor(c => c.Slug, fk => fk.Lorem.Slug());
+
+            var cate1 = fakerCategory.Generate();
+            var cate11 = fakerCategory.Generate();
+            var cate12 = fakerCategory.Generate();
+            var cate2 = fakerCategory.Generate();
+            var cate21 = fakerCategory.Generate();
+            var cate22 = fakerCategory.Generate();
+
+            cate11.ParentCategory = cate1;
+            cate12.ParentCategory = cate1;
+            cate21.ParentCategory = cate2;
+            cate22.ParentCategory = cate2;
+
+            var rCateIndex = new Random();
+            int bv = 1;
+            var user = _userManager.GetUserAsync(this.User).Result;
+
+            var fakerPost = new Faker<ProductModel>();
+            fakerPost.RuleFor(p => p.AuthorId, f => user.Id);
+            fakerPost.RuleFor(p => p.Content, f => f.Lorem.Sentences(1) + "[fakeData]");
+            fakerPost.RuleFor(p => p.DateCreated, f => f.Date.Between(new DateTime(2021, 1, 1), new DateTime(2021, 7, 1)));
+            fakerPost.RuleFor(p => p.Description, f => f.Commerce.ProductDescription());
+            fakerPost.RuleFor(p => p.Published, f => true);
+            fakerPost.RuleFor(p => p.Slug, f => f.Lorem.Slug());
+            fakerPost.RuleFor(p => p.Title, f => $"Bai {bv++} " + f.Commerce.ProductName());
+            fakerPost.RuleFor(p => p.Price, f => f.Random.Number(100, int.MaxValue));
+            List<ProductModel> products = new List<ProductModel>();
+            List<ProductCategoryProduct> productCategory = new List<ProductCategoryProduct>();
+
+            var categories = new CategoryProduct[] { cate11, cate12, cate2, cate1, cate21, cate22 };
+
+            for (int i = 0; i < 40; i++)
+            {
+                var post = fakerPost.Generate();
+                post.DateUpdated = post.DateCreated;
+                products.Add(post);
+                productCategory.Add(new ProductCategoryProduct()
+                {
+                    product = post,
+                    categoryproduct = categories[rCateIndex.Next(5)]
+                });
+            }
+            _context.AddRange(products);
+            _context.AddRange(productCategory);
             _context.AddRange(categories);
 
             _context.SaveChanges();

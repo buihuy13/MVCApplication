@@ -247,3 +247,6 @@ D:\source\repos\MVCApplication\MVCApplication\bin\Debug\net8.0\runtimes\win-x64\
 D:\source\repos\MVCApplication\MVCApplication\bin\Debug\net8.0\runtimes\win-x64\native\krbcc64.dll
 D:\source\repos\MVCApplication\MVCApplication\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Windows.Extensions.dll
 D:\source\repos\MVCApplication\MVCApplication\obj\Debug\net8.0\MVCAppli.523EB831.Up2Date
+D:\source\repos\MVCApplication\MVCApplication\obj\Debug\net8.0\MVCApplication.MvcApplicationPartsAssemblyInfo.cs
+D:\source\repos\MVCApplication\MVCApplication\bin\Debug\net8.0\elFinder.NetCore.dll
+D:\source\repos\MVCApplication\MVCApplication\bin\Debug\net8.0\SixLabors.ImageSharp.dll

@@ -1,0 +1,44 @@
+﻿@model CategoryProduct
+
+@{
+    ViewData["Title"] = "Delete Blog";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Are you sure to delete this category?</h3>
+
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(m => m.Title)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(m => m.Title)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(m => m.Content)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(m => m.Content)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(m => m.Slug)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(m => m.Slug)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(m => m.ParentCategory)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(m => m.ParentCategory)
+        </dd>
+    </dl>
+
+    <form method="post">
+        <button class="btn btn-danger" asp-action="Delete" type="submit">Delete</button>
+        <a class="btn btn-info" asp-action="Index">Back</a>
+    </form>
+</div>

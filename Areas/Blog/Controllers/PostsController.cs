@@ -173,7 +173,7 @@ namespace MVCApplication.Areas.Blog
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Title,Description,Slug,Content,CategoryIds")]CreatePostsModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Title,Description,Slug,Content,CategoryIds")] CreatePostsModel model)
         {
             var post = await _context.Posts.Include(p => p.PostCategories).FirstOrDefaultAsync(p => p.Id == id);
             if (post == null)

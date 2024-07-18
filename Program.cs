@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using MVCTest.ExtendMethods;
 using MVCTest.Models;
 using System;
@@ -93,6 +94,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(),"Uploads")
+    ),
+    RequestPath = "/contents"
+});
+
 app.AddStatusCodePage();
 
 app.UseRouting();
@@ -114,9 +123,15 @@ app.MapAreaControllerRoute(
 app.MapAreaControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}",
-    areaName: "Blog"
+    areaName: "Product"
 );
 
+
+app.MapAreaControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}",
+    areaName: "Blog"
+);
 
 //URL: /{controller}/{action}/{id?}
 // Abc/Xyz => Controller: Abc, Action: Xyz

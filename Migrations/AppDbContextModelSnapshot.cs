@@ -120,7 +120,7 @@ namespace MVCApplication.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MVCTest.Models.ContactModel", b =>
@@ -151,7 +151,7 @@ namespace MVCApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("MVCTest.Models.Post", b =>
@@ -161,7 +161,6 @@ namespace MVCApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AuthorId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Content")
@@ -197,7 +196,7 @@ namespace MVCApplication.Migrations
                     b.HasIndex("Slug")
                         .IsUnique();
 
-                    b.ToTable("Posts", (string)null);
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("MVCTest.Models.PostCategory", b =>
@@ -212,7 +211,123 @@ namespace MVCApplication.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("PostCategories", (string)null);
+                    b.ToTable("PostCategories");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.CategoryProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<int?>("ParentCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCategoryId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("CategoryProducts");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductCategoryProduct", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "CategoryProductId");
+
+                    b.HasIndex("CategoryProductId");
+
+                    b.ToTable("ProductCategoryProducts");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AuthorId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DateUpdated")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("Published")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Slug")
+                        .HasMaxLength(160)
+                        .HasColumnType("varchar(160)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("productPhotos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -356,9 +471,7 @@ namespace MVCApplication.Migrations
                 {
                     b.HasOne("MVCTest.Models.AppUser", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
                 });
@@ -380,6 +493,54 @@ namespace MVCApplication.Migrations
                     b.Navigation("cate");
 
                     b.Navigation("post");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.CategoryProduct", b =>
+                {
+                    b.HasOne("MVCTest.Models.Product.CategoryProduct", "ParentCategory")
+                        .WithMany("ChildrenCategories")
+                        .HasForeignKey("ParentCategoryId");
+
+                    b.Navigation("ParentCategory");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductCategoryProduct", b =>
+                {
+                    b.HasOne("MVCTest.Models.Product.CategoryProduct", "categoryproduct")
+                        .WithMany()
+                        .HasForeignKey("CategoryProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVCTest.Models.Product.ProductModel", "product")
+                        .WithMany("ProductCategoryProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("categoryproduct");
+
+                    b.Navigation("product");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductModel", b =>
+                {
+                    b.HasOne("MVCTest.Models.AppUser", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductPhoto", b =>
+                {
+                    b.HasOne("MVCTest.Models.Product.ProductModel", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -441,6 +602,18 @@ namespace MVCApplication.Migrations
             modelBuilder.Entity("MVCTest.Models.Post", b =>
                 {
                     b.Navigation("PostCategories");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.CategoryProduct", b =>
+                {
+                    b.Navigation("ChildrenCategories");
+                });
+
+            modelBuilder.Entity("MVCTest.Models.Product.ProductModel", b =>
+                {
+                    b.Navigation("Photos");
+
+                    b.Navigation("ProductCategoryProducts");
                 });
 #pragma warning restore 612, 618
         }

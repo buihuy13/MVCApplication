@@ -1,0 +1,50 @@
+﻿@model CategoryProduct
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+    <partial name="_StatusMessage" for="@TempData["StatusMessage"]" />
+    <h2>Create Category</h2>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="CategoryProduct" asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="ParentCategoryId"></label>
+                    <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId"></select>
+                    <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input class="form-control" asp-for="Title" />
+                    <span class="text-danger" asp-validation-for="Title"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="Content"></label>
+                    <textarea class="form-control" asp-for="Content"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="Slug"></label>
+                    <input class="form-control" asp-for="Slug" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-2">
+                    <button class="btn btn-success" asp-action="Create" type="submit">Create</button>
+                    <a asp-action="Index" class="btn btn-info">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+</body>
+</html>

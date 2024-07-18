@@ -1,0 +1,66 @@
+﻿@using App.Models
+@using MVCApplication.Areas.Product.Models.ProductManage
+@model ProductListModel;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Posts Page</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModels[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModels[0].Published)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModels[0].Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductModels[0].DateCreated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ProductModels)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Published)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                <a asp-action="UploadPhoto" asp-route-id="@item.Id">Photos</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@{
+    var pagingmodel = new PagingModel()
+            {
+                currentpage = Model.currentPage,
+                countpages = Model.countPages,
+                generateUrl = (int? p) => Url.Action("Index", new { p = p })
+            };
+}
+
+<partial name="_PagingXTL" model="@pagingmodel" />
