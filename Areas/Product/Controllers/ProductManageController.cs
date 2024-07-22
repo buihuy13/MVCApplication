@@ -67,6 +67,7 @@ namespace MVCTest.Areas.Product.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Author)
+                .Include(p => p.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {

@@ -59,6 +59,20 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.DateUpdated)
         </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photos)
+        </dt>
+        <dd class="col-sm-10">
+            <div class="w-25 p-1">
+                @if (Model.Photos!=null)
+                {
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <img class="w-100" src="/contents/Products/@photo.FileName" />
+                    }
+                }
+            </div>
+        </dd>
     </dl>
 </div>
 <div>

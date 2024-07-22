@@ -61,7 +61,7 @@ namespace MVCApplication.Areas.Blog.Controllers
             List<Category> parentCates = new List<Category>();
             if (parentIds.Count > 0)
             {
-               parentIds.RemoveAt(0);
+                parentIds.RemoveAt(0);
                 for (int i = parentIds.Count() - 1;i>=0;i--)
                 {
                     parentCates.Add(_context.Categories.Where(c => c.Id == parentIds[i]).FirstOrDefault());

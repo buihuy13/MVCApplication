@@ -1,0 +1,66 @@
+﻿@model List<ProductModel>
+@using App.Components
+@{
+    List<CategoryProduct> categories = ViewBag.Categories as List<CategoryProduct>;
+    var cate = ViewBag.Category as CategoryProduct;
+    var parentCates = ViewBag.parentCates as List<CategoryProduct>;
+}
+
+@if (cate != null)
+{
+    <h1>@cate.Content</h1>
+    <div class="bg-info bg-opacity-25">
+        <a asp-action="Index" asp-controller="Home" class="text-decoration-none">Home</a> /
+        @if (parentCates.Count > 0)
+        {
+            @foreach (var category in parentCates)
+            {
+                <span>@category.Title /</span>
+            }
+        }
+    </div>
+}
+else
+{
+    <h3>Index</h3>
+}
+
+<hr />
+
+<div class="d-flex flex-wrap justify-content-between">
+    @foreach (var product in Model)
+    {
+        <div class="card mb-1" style="width: 32%;">
+            @if(product.Photos.Count>0)
+            {
+                <img src="/contents/Products/@product.Photos[0].FileName" class="card-img-top" alt="..."/>
+            }
+            else
+            {
+                <img src="~/No_Image_Available.jpg" class="card-img-top" alt="..." />
+            }
+            <div class="card-body">
+                <h5 class="card-title">@product.Title</h5>
+                <p class="card-text">@product.Description</p>
+                <p>
+                    Giá: <strong>@product.Price</strong>
+                </p>
+            </div>
+            <div class="card-body">
+                <a asp-controller="ProductManage" asp-action="Details" asp-area="Product" asp-route-id="@product.Id">Details</a>
+                <a asp-action="AddToCart" asp-route-productid="@product.Id" class="btn btn-primary">Đặt hàng</a>
+            </div>
+        </div>
+
+    }
+</div>
+
+@section Sidebar {
+    <a class="h3" asp-action="Index" asp-controller="Categories" asp-area="Blog" style="text-decoration: none">Category List</a>
+    @await Component.InvokeAsync("CategoryProductSidebar", new CategoryProductSidebar.CategoryProductSidebarData()
+{
+    categories = categories,
+    level = 0,
+    categorySlug = ViewBag.categoryslug
+})
+}

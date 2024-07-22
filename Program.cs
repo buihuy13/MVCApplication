@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using MVCApplication.Areas.Product.Service;
 using MVCTest.ExtendMethods;
 using MVCTest.Models;
 using System;
@@ -71,6 +72,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 builder.Services.AddSingleton<IdentityErrorDescriber, AppIdentityErrorDescriber>();
+builder.Services.AddTransient<CartService>();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -79,6 +81,13 @@ builder.Services.AddAuthorization(options =>
         builder.RequireAuthenticatedUser();
         builder.RequireRole(RoleName.Administrator);
     });
+});
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession((option) =>
+{
+    option.Cookie.Name = "buiquochuy";
+    option.IdleTimeout = new TimeSpan(0, 30, 0);
 });
 
 var app = builder.Build();
@@ -101,6 +110,8 @@ app.UseStaticFiles(new StaticFileOptions()
     ),
     RequestPath = "/contents"
 });
+
+app.UseSession();
 
 app.AddStatusCodePage();
 

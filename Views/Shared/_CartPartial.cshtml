@@ -1,0 +1,11 @@
+﻿@using MVCApplication.Areas.Product.Service
+
+@inject CartService cartService;
+
+@{
+    var cartItem = cartService.GetCartItems();
+    @if (cartItem.Count>0)
+    {
+        <div class="nav-item"><a asp-route="cart"><i class="fa-solid fa-cart-shopping"></i>(@cartItem.Count)</a></div>
+    }
+}
